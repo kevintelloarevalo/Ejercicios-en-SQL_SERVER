@@ -1,4 +1,3 @@
---Actividad:
 
 /*1) Insertar datos de pedidos, crear al menos 6 pedidos.*/
 INSERT INTO TB_PEDIDO (DES_PEDIDO, ID_PEDIDO_ESTADO, ID_PERSONA,FEC_CREACION)
@@ -10,8 +9,8 @@ VALUES
 ('Pedido POS',2,2,GETDATE()),
 ('Pedido Tienda',2,3,GETDATE())
 
-/* 2) Llenar data de pedido detalle de los 6 pedido creados anteriormente y añadir al menos 2 productos por pedido_detalle.
-   3) Los campos "IMP_VALOR_NETO" y "IMP_VALOR_TOTAL" no se llenará en el insert, pero si los demás campos.                 */
+/* 2) Llenar data de pedido detalle de los 6 pedido creados anteriormente y aÃ±adir al menos 2 productos por pedido_detalle.
+   3) Los campos "IMP_VALOR_NETO" y "IMP_VALOR_TOTAL" no se llenarÃ¡ en el insert, pero si los demÃ¡s campos.                 */
 
 -- Realice un procedimiento almacenado para validar el numero ingresado en el campo NUM_CANTIDAD
 CREATE PROCEDURE PA_VALIDAR_NUMERO (@NUM INT, @RESULTADO NVARCHAR(50) OUTPUT)
@@ -19,13 +18,13 @@ AS
 BEGIN
     IF @NUM >= 2
         BEGIN
-            -- si el número es válido
-            SET @RESULTADO = 'El número ingresado es válido.'
+            -- si el nÃºmero es vÃ¡lido
+            SET @RESULTADO = 'El nÃºmero ingresado es vÃ¡lido.'
         END
     ELSE
         BEGIN
-            -- si el número no es válido
-            SET @RESULTADO = 'El número ingresado no es válido.'
+            -- si el nÃºmero no es vÃ¡lido
+            SET @RESULTADO = 'El nÃºmero ingresado no es vÃ¡lido.'
         END
 END
 
@@ -33,21 +32,21 @@ END
 CREATE PROCEDURE PA_INSERTAR_PEDIDO_DETALLE (@ID_PEDIDO INT, @ID_PRODUCTO INT, @NUM_CANTIDAD INT)
 AS
 BEGIN
-    -- valido el número de cantidad utilizando el procedimiento almacenado PA_VALIDAR_NUMERO
+    -- valido el nÃºmero de cantidad utilizando el procedimiento almacenado PA_VALIDAR_NUMERO
     DECLARE @RESULTADO NVARCHAR(50)
     EXEC PA_VALIDAR_NUMERO @NUM_CANTIDAD, @RESULTADO OUTPUT
     
-    IF @RESULTADO = 'El número ingresado es válido.'
+    IF @RESULTADO = 'El nÃºmero ingresado es vÃ¡lido.'
         BEGIN
-            -- Si el número es válido, insertamos el registro en la tabla TB_PEDIDO_DETALLE
+            -- Si el nÃºmero es vÃ¡lido, insertamos el registro en la tabla TB_PEDIDO_DETALLE
 			-- sin incluir los campos IMP_VALOR_NETO y IMP_VALOR_TOTAL
             INSERT INTO TB_PEDIDO_DETALLE (ID_PEDIDO, ID_PRODUCTO, NUM_CANTIDAD, FEC_CREACION)
             VALUES (@ID_PEDIDO, @ID_PRODUCTO, @NUM_CANTIDAD, GETDATE())
         END
     ELSE
         BEGIN
-            -- Si el número no es válido, no insertamos el registro en la tabla
-            RAISERROR('El número ingresado no es válido.', 16, 1)
+            -- Si el nÃºmero no es vÃ¡lido, no insertamos el registro en la tabla
+            RAISERROR('El nÃºmero ingresado no es vÃ¡lido.', 16, 1)
         END
 END
 
@@ -60,8 +59,8 @@ EXEC PA_INSERTAR_PEDIDO_DETALLE 2, 3, 5
 EXEC PA_INSERTAR_PEDIDO_DETALLE 3, 8, 6
 
 /*	 4) Van a crear un cursor que actualice la tabla TB_PEDIDO_DETALLE 
-		donde traerá el valor "IMP_VALOR_NETO" del producto de la tabla TB_PRODUCTO y
-		calcularán el "IMP_VALOR_TOTAL" de la tabla TB_PEDIDO_DETALLE    */
+		donde traerÃ¡ el valor "IMP_VALOR_NETO" del producto de la tabla TB_PRODUCTO y
+		calcularÃ¡n el "IMP_VALOR_TOTAL" de la tabla TB_PEDIDO_DETALLE    */
 
 -- variables necesarias para el cursor:
 DECLARE @ID_PEDIDO_DETALLE INT
@@ -93,7 +92,7 @@ END
 CLOSE CURSOR_DETALLE --cerrar cursor
 DEALLOCATE CURSOR_DETALLE --liberar cursor
 
-/*  5) Por último en el mismo cursor actualizarán la tabla TB_PEDIDO el campo "IMP_TOTAL_PEDIDO" 
+/*5) Por Ãºltimo en el mismo cursor actualizarÃ¡n la tabla TB_PEDIDO el campo "IMP_TOTAL_PEDIDO" 
 	con la sumatoria del total de la tabla TB_PEDIDO_DETALLE relacionado al pedido.            */
 
 -- NOTA: NO SABIA COMO ALTERAR EL CURSOR DE OTRA MANERA, ASI QUE CREE UN NUEVO CURSOR QUE CUMPLE LA INSTRUCCION 4 Y 5
