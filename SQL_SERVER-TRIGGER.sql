@@ -1,9 +1,7 @@
-
-
 --1) Agregar columna "EMAIL" a la tabla TB_PERSONA
 ALTER TABLE TB_PERSONA ADD EMAIL VARCHAR(255) NOT NULL;
 SELECT * FROM TB_PERSONA
---2) Evaluar por medio de un trigger  a la tabla persona, que el valor represente al menos una estructura lógica de correo.
+--2) Evaluar por medio de un trigger Â a la tabla persona, que el valor represente al menos una estructura lÃ³gica de correo.
 CREATE TRIGGER TR_VALIDAR_EMAIL
 ON TB_PERSONA
 AFTER INSERT, UPDATE
@@ -13,7 +11,7 @@ BEGIN
 
   IF EXISTS (SELECT * FROM inserted WHERE PATINDEX('^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$', EMAIL) = 0)
   BEGIN
-    RAISERROR('El valor de la columna EMAIL no representa una estructura lógica de correo.', 16, 1);
+    RAISERROR('El valor de la columna EMAIL no representa una estructura lÃ³gica de correo.', 16, 1);
     ROLLBACK
   END
 END
@@ -44,7 +42,7 @@ ON TB_PERSONA
 AFTER UPDATE
 AS
 BEGIN
-    -- Insertar una nueva fila en la tabla de auditoría para cada registro modificado
+    -- Insertar una nueva fila en la tabla de auditorÃ­a para cada registro modificado
     INSERT INTO TB_PERSONA_AUDIT (ID_PERSONA, NOMBRE_ANT, APELLIDO_PATERNO_ANT, APELLIDO_MATERNO_ANT, 
                                    COD_DOI_ANT, DIRECCION_ANT, FEC_NACIMIENTO_ANT, FEC_CREACION_ANT, 
                                    FEC_MODIFICACION_ANT, SEXO_ANT, NUM_MOVIL_ANT, EMAIL_ANT, 
