@@ -1,4 +1,5 @@
 use Ejemplo;
+----Creando la tabla persona------
 CREATE TABLE TB_PERSONA(
 	ID_PERSONA INT IDENTITY(1,1) NOT NULL,
 	NOMBRE VARCHAR(100) NOT NULL,
@@ -35,8 +36,8 @@ ALTER TABLE TB_PERSONA
 
 SELECT * FROM TB_PERSONA
 
-----       T A R E A      ------------------------------------------------------------------------
--- Crear la tabla TB_TIPO_DOC_IDENTIDAD ----------
+
+-- Creando la tabla TB_TIPO_DOC_IDENTIDAD ----------
 CREATE TABLE TB_TIPO_DOC_IDENTIDAD (
     ID_TIPO_DOC INT IDENTITY(1,1) NOT NULL,
     DESCRIPCION VARCHAR(50) NOT NULL,
@@ -58,9 +59,9 @@ ALTER TABLE TB_PERSONA
     ADD ID_TIPO_DOC_IDENTIDAD INT NOT NULL,
     CONSTRAINT FK_PERSONA_TIPO_DOC_IDENTIDAD FOREIGN KEY (ID_TIPO_DOC_IDENTIDAD) REFERENCES TB_TIPO_DOC_IDENTIDAD(ID_TIPO_DOC);
 
--- Modificar la restricciÛn de verificaciÛn CK_PERSONA_COD_DOI
--- para asegurarnme de que cada registro de persona tenga un tipo de documento de identidad v·lido.
--- Si el valor de COD_DOI no es v·lido para el tipo de documento seleccionado, se producir· un error de restricciÛn CHECK
+-- Modificar la restricci√≥n de verificaci√≥n CK_PERSONA_COD_DOI
+-- para asegurarnme de que cada registro de persona tenga un tipo de documento de identidad v√°lido.
+-- Si el valor de COD_DOI no es v√°lido para el tipo de documento seleccionado, se producir√° un error de restricci√≥n CHECK
 ALTER TABLE TB_PERSONA
     DROP CONSTRAINT CK_PERSONA_COD_DOI;
 
@@ -71,7 +72,7 @@ ALTER TABLE TB_PERSONA
 		(ID_TIPO_DOC_IDENTIDAD IN (2, 3) AND LEN(COD_DOI) = 12)
 	)
 
------- VISTA PERSONA ----------------------------------------------
+------ VISTA PERSONA --------
 DROP VIEW VW_PERSONA;
 
 CREATE VIEW VW_PERSONA AS
@@ -91,23 +92,22 @@ SELECT
 FROM TB_PERSONA
 INNER JOIN TB_TIPO_DOC_IDENTIDAD
 ON ID_TIPO_DOC_IDENTIDAD = ID_TIPO_DOC;
-
+--Mostrando vista----
 SELECT * FROM VW_PERSONA;
 ---------------------------------------------------------------------------
 -- DNI:
 INSERT INTO TB_PERSONA (NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, COD_DOI, DIRECCION, FEC_NACIMIENTO, FEC_CREACION, FEC_MODIFICACION, SEXO, NUM_MOVIL, ID_TIPO_DOC_IDENTIDAD)
-VALUES ('Juan', 'PÈrez', 'GÛmez', '12345678', 'Av. Los ¡lamos 123', '1990-01-01', GETDATE(), '2023-07-01','M', 987654321, 1);
+VALUES ('Juan', 'P√©rez', 'G√≥mez', '12345678', 'Av. Los √Ålamos 123', '1990-01-01', GETDATE(), '2023-07-01','M', 987654321, 1);
 -- CE:
 INSERT INTO TB_PERSONA (NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, COD_DOI, DIRECCION, FEC_NACIMIENTO, FEC_CREACION, FEC_MODIFICACION, SEXO, NUM_MOVIL, ID_TIPO_DOC_IDENTIDAD)
-VALUES ('Juanita', 'PÈrez', 'GÛmez', '123456789012', 'Av. Los ¡lamos 123', '1952-01-01', GETDATE(), '2025-07-01','M', 123456789, 2);
+VALUES ('Juanita', 'P√©rez', 'G√≥mez', '123456789012', 'Av. Los √Ålamos 123', '1952-01-01', GETDATE(), '2025-07-01','M', 123456789, 2);
 -- PAS:
 INSERT INTO TB_PERSONA (NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, COD_DOI, DIRECCION, FEC_NACIMIENTO, FEC_CREACION, FEC_MODIFICACION, SEXO, NUM_MOVIL, ID_TIPO_DOC_IDENTIDAD)
-VALUES ('JuanSE', 'Javier', 'GÛmez', '75391LK6805A', 'Av. Pacasmayo 1', '2000-01-01', GETDATE(), '2025-07-01','M', 939231736, 3);
+VALUES ('JuanSE', 'Javier', 'G√≥mez', '75391LK6805A', 'Av. Pacasmayo 1', '2000-01-01', GETDATE(), '2025-07-01','M', 939231736, 3);
 ---------------------------------------------------------------------------
 --delete from tb_persona where nombre='Juan';
 ---------------------------------------------------------------------------
----------------------------------------------------------------------------
-
+----Mostrando TB_TIPO_DOC_IDENTIDAD----
 SELECT * FROM TB_TIPO_DOC_IDENTIDAD
 
 ----- Ejemplo del indice con 1M de registros..
